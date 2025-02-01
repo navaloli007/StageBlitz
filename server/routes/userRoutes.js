@@ -1,11 +1,11 @@
 const express = require("express");
 const User = require("../models/userModel");
 const jwt = require("jsonwebtoken");
+const auth = require("../middlewares/authMiddleware");
 
 const userRouter = express.Router();
 
 userRouter.post("/register", async (req, res) => {
-    console.log(req.body);
     try {
         const userExist = await User.findOne({ email: req.body.email });
         if (userExist) {
@@ -43,7 +43,6 @@ userRouter.post("/login", async (req, res) => {
             });
         }
         const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: "1d" });
-        console.log(token);
         res.send({
             success: true,
             message: "User logged in successfully",
@@ -54,5 +53,10 @@ userRouter.post("/login", async (req, res) => {
         res.status(404).send({ success: false, message: err.message });
     }
 });
+
+userRouter.get("/get-current-user", auth, async (req, res) => {
+    const user = await User.findById(req.body.userId).select("-password");
+    res.send({ success: true, message: "You are authenticated", data: user });
+})
 
 module.exports = userRouter;
