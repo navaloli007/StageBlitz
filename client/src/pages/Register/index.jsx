@@ -23,7 +23,7 @@ function Register() {
   return (
     <>
       <main className="App-header">
-        <h1>Register to Book My Show</h1>
+        <h1>Register to Stage Blitz</h1>
         <section className="mw-500 text-center px-3">
           <Form layout="vertical" onFinish={onFinish}>
             <Form.Item

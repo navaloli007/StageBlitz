@@ -114,6 +114,7 @@ function TheatreList() {
           isModalOpen={isModalOpen}
           setIsModalOpen={setIsModalOpen}
           selectedTheatre={selectedTheatre}
+          setSelectedTheatre={setSelectedTheatre}
           formType={formType}
           getdata={getdata}
         />
@@ -123,6 +124,7 @@ function TheatreList() {
           isDeleteModalOpen={isDeleteModalOpen}
           setIsDeleteModalOpen={setIsDeleteModalOpen}
           selectedTheatre={selectedTheatre}
+          setSelectedTheatre={setSelectedTheatre}
           getdata={getdata}
         />
       )}

@@ -39,7 +39,7 @@ router.delete("/delete-theatre/:theatreId", async (req, res) => {
 // get all theatres for Admin route
 router.get("/get-all-theatres", async (req, res) => {
     try {
-        const allTheatres = Theatre.find().populate("owner");
+        const allTheatres = await Theatre.find().populate("owner");
         res.send({
             success: true,
             data: allTheatres,

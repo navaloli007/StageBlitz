@@ -23,7 +23,7 @@ function Login() {
   return (
     <>
       <main className="App-header">
-        <h1>Login to Book My Show</h1>
+        <h1>Login to Stage Blitz</h1>
         <section className="mw-500 text-center px-3">
           <Form layout="vertical" onFinish={onFinish}>
             <Form.Item
