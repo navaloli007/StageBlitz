@@ -82,9 +82,9 @@ function Register() {
                 Register
               </Button>
             </Form.Item>
-            {/* <Form.Item
+            <Form.Item
               label="Register as a Partner"
-              htmlForm="role"
+              htmlFor="role"
               name="role"
               className="d-block tet-center"
               initialValue={false}
@@ -96,7 +96,7 @@ function Register() {
                   <Radio value={"user"}>No</Radio>
                 </Radio.Group>
               </div>
-            </Form.Item> */}
+            </Form.Item>
           </Form>
           <div>
             <p>
