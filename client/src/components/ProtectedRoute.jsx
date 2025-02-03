@@ -97,7 +97,7 @@ function ProtectedRoute({ children }) {
             </h3>
             <Menu items={navItems} theme="dark" mode="horizontal" />
           </Header>
-          <div styl={{ padding: 24, minHeight: "380", background: "#fff" }}>
+          <div style={{ padding: 24, minHeight: "380", background: "#fff" }}>
             {children}
           </div>
         </Layout>
