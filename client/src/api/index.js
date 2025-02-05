@@ -4,6 +4,7 @@ export const axiosInstance = axios.create({
     headers: {
         "Content-Type": "application/json",
     },
+    baseURL: "/",
 });
 
 axiosInstance.interceptors.request.use(function (config) {

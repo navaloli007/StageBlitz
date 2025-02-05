@@ -30,9 +30,13 @@ const showSchema = new mongoose.Schema(
             type: Number,
             required: true,
         },
+        bookedSeats: {
+            type: Array,
+            default: [],
+        },
         theatre: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "theatre",
+            ref: "theatres",
             required: true,
         },
     },

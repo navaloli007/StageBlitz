@@ -52,4 +52,22 @@ const deleteMovie = async (req, res) => {
   }
 };
 
-module.exports = { addMovie, getAllMovies, updateMovie, deleteMovie };
+const getMovieById = async (req, res) => {
+  try {
+    const movie = await Movie.findById(req.params.id);
+    res.send({
+      success: true,
+      data: movie,
+      message: "Movie fetched successfully",
+    });
+  } catch (err) {
+    res.send({ success: false, message: err.message });
+  }
+};
+module.exports = {
+  addMovie,
+  getAllMovies,
+  updateMovie,
+  deleteMovie,
+  getMovieById,
+};

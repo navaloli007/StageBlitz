@@ -312,7 +312,7 @@ const ShowModal = ({
                     <Select
                       id="movie"
                       placeholder="Select Movie"
-                      defaultValue={selectedMovie && selectedMovie.title}
+                      value={selectedMovie && selectedMovie.title}
                       style={{ width: "100%", height: "45px" }}
                       options={movies.map((movie) => ({
                         key: movie._id,

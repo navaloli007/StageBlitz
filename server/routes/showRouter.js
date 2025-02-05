@@ -85,17 +85,17 @@ router.get("/get-all-theatres-by-movie/:movie/:date", async (req, res) => {
                     shows: showsOfThisTheatre,
                 });
             }
-            res.send({
-                success: true,
-                message: "Theatres found",
-                data: uniqueTheatres,
-            });
+        });
+        res.send({
+            success: true,
+            message: "Theatres found",
+            data: uniqueTheatres,
         });
     } catch (err) {
         return res.status(500).json({ success: false, message: err.message });
     }
 });
-router.get("get-show-by-id/:showId", async (req, res) => {
+router.get("/get-show-by-id/:showId", async (req, res) => {
     try {
         const show = await Show.findById(req.params.showId)
             .populate("movie")
