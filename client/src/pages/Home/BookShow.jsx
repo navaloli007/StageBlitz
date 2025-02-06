@@ -5,6 +5,9 @@ import { ShowLoading, HideLoading } from "../../redux/loaderSlice";
 import { message, Input, Divider, Row, Col, Card, Button } from "antd";
 import { getShowById } from "../../api/shows";
 import moment from "moment";
+import StripeCheckout from "react-stripe-checkout";
+import { bookShow, makePayment } from "../../api/bookings";
+
 const BookShow = () => {
   const { user } = useSelector((state) => state.users);
   const dispatch = useDispatch();
@@ -30,7 +33,7 @@ const BookShow = () => {
   const getSeats = () => {
     const columns = 12;
     const totalSeats = 120;
-    const rows = totalSeats / columns;
+    const rows = Math.ceil(totalSeats / columns);
     return (
       <div className="d-flex flex-column align-items-center">
         <div className="w-100 max-width-600 mx-auto mb-25px">
@@ -39,8 +42,11 @@ const BookShow = () => {
           </p>
           <div className="screen-div"></div>
         </div>
-        <ul className="seat-ul justify-content-center">
-          {Array.from(Array(rows).keys()).map((row) => {
+        <ul
+          className="seat-ul justify-content-center"
+          style={{ marginLeft: "35%" }}
+        >
+          {Array.from(Array(rows).keys()).map((row) =>
             Array.from(Array(columns).keys()).map((column) => {
               let seatNumber = row * columns + column + 1;
               console.log("seats", seatNumber);
@@ -56,7 +62,7 @@ const BookShow = () => {
                 console.log("rendering seats", seatNumber);
                 return (
                   <li key={seatNumber}>
-                    <button
+                    <Button
                       className={seatClass}
                       onClick={() => {
                         if (selectedSeats.includes(seatNumber)) {
@@ -69,12 +75,12 @@ const BookShow = () => {
                       }}
                     >
                       {seatNumber}
-                    </button>
+                    </Button>
                   </li>
                 );
               }
-            });
-          })}
+            })
+          )}
         </ul>
         <div className="d-flex bottom-card justify-content-between w-100 max-width-600 mx-auto mb-25px mt-3">
           <div>
@@ -91,6 +97,46 @@ const BookShow = () => {
   useEffect(() => {
     getData();
   }, []);
+  const book = async (transactionId) => {
+    try {
+      dispatch(ShowLoading());
+      const response = await bookShow({
+        show: params.id,
+        transactionId,
+        seats: selectedSeats,
+        user: user._id,
+      });
+      if (response.success) {
+        message.success(response.message);
+        navigate("/profile");
+      } else {
+        message.error(response.message);
+      }
+    } catch (err) {
+      message.error(err.message);
+    }
+  };
+  const onToken = async (token) => {
+    console.log(token);
+    try {
+      dispatch(ShowLoading());
+      const response = await makePayment(
+        token,
+        selectedSeats.length * show.ticketPrice * 100
+      );
+      if (response.success) {
+        message.success(response.message);
+        book(response.data);
+        console.log(response);
+      } else {
+        message.error(response.message);
+      }
+      dispatch(HideLoading());
+    } catch (err) {
+      message.error(err.message);
+      dispatch(HideLoading());
+    }
+  };
   return (
     <>
       {show && (
@@ -126,6 +172,19 @@ const BookShow = () => {
               }
             >
               {getSeats()}
+              {selectedSeats.length > 0 && (
+                <StripeCheckout
+                  token={onToken}
+                  amount={selectedSeats.length * show.ticketPrice * 100}
+                  stripeKey="pk_test_51PY5CiRteLJygSvEwi4Zd4R5ZKaKdY8VktV02VTgbK0KA7ATkaEpsK33AmpNQvIYJIZBnbpJuKUO3QG78eFkTH9B00Wyjxc4NL"
+                >
+                  <div className="max-width-600 mx-auto">
+                    <Button type="primary" shape="round" size="large" block>
+                      Pay Now
+                    </Button>
+                  </div>
+                </StripeCheckout>
+              )}
             </Card>
           </Col>
         </Row>

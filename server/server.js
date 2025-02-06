@@ -14,6 +14,7 @@ app.use("/api/users", userRouter);
 app.use("/api/movies", movieRouter);
 app.use("/api/theatres", theatreRouter);
 app.use("/api/shows", require("./routes/showRouter"));
+app.use("/api/bookings", require("./routes/bookingRouter"));
 
 app.listen("8082", () => {
     console.log("Server started at port 8082");

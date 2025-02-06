@@ -188,7 +188,7 @@ hr {
   gap: 0.5rem;
   flex-wrap: wrap;
   max-width: 600px;
-  height: 400px;
+  margin-left: 28%;
 }
 .seat-ul .seat-btn {
   background-color: #f6f6f6;
